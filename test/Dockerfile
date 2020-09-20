@@ -1,3 +1,4 @@
-FROM test
+FROM test-secure-nginx
 
-WORKDIR /usr/local/nginx/html
+WORKDIR /etc/nginx/templates
+COPY --chown=nginx:root ./image/etc/nginx/templates/default.conf.template .
