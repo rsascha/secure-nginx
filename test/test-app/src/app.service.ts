@@ -1,10 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { GetEnvironmentVariable } from './get-env-variable';
+import { GetEnvironmentVariableType, GetFileType, ExecuteShellCommandType } from './types';
 
 @Injectable()
 export class AppService {
-  getHello(query: GetEnvironmentVariable): string {
+  getEnvironmentVariable(query: GetEnvironmentVariableType): string {
     const result = process.env[query.variable];
     return result;
+  }
+
+  getFile(query: GetFileType): string {
+    const fs = require('fs');
+    const result = fs.readFileSync(query.path, 'utf-8');
+    return result;
+  }
+
+  execShell(query: ExecuteShellCommandType): string {
+    const execSync = require('child_process').execSync;
+    return execSync(query.command).toString();
   }
 }
